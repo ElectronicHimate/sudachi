@@ -3,7 +3,7 @@
 # SPDX-FileCopyrightText: 2023 yuzu Emulator Project
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-. ./.ci/scripts/common/pre-upload.sh
+. ./.github/workflows/pre-upload.sh
 
 REV_NAME="yuzu-${GITDATE}-${GITREV}"
 
