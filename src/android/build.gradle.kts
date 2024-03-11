@@ -9,7 +9,7 @@ plugins {
 }
 
 tasks.register("clean").configure {
-    delete(rootProject.layout.buildDirectory.asFile.toString())
+    delete(rootProject.layout.buildDirectory.asFile)
 }
 
 buildscript {

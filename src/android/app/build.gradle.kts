@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import android.annotation.SuppressLint
-import com.github.triplet.gradle.androidpublisher.ReleaseStatus
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+import com.github.triplet.gradle.androidpublisher.ReleaseStatus
 
 plugins {
     id("com.android.application")
@@ -25,7 +25,6 @@ val autoVersion = (((System.currentTimeMillis() / 1000) - 1451606400) / 10).toIn
 @Suppress("UnstableApiUsage")
 android {
     namespace = "org.yuzu.yuzu_emu"
-    compileSdk = 34
 
     ndkVersion = "26.2.11394342"
 
@@ -55,7 +54,7 @@ android {
     defaultConfig {
         // TODO If this is ever modified, change application_id in strings.xml
         applicationId = "org.yuzu.yuzu_emu"
-        minSdk = 30
+        minSdk = 29
         targetSdk = 34
         versionName = getGitVersion()
 
@@ -162,6 +161,8 @@ android {
             path = file("../../../CMakeLists.txt")
         }
     }
+
+    compileSdk = 34
     buildToolsVersion = "34.0.0"
 
     defaultConfig {
