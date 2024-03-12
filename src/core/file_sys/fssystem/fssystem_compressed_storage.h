@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2023 yuzu Emulator Project
+// SPDX-FileCopyrightText: Copyright 2023 sudachi Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -17,8 +17,8 @@ namespace FileSys {
 using namespace Common::Literals;
 
 class CompressedStorage : public IReadOnlyStorage {
-    YUZU_NON_COPYABLE(CompressedStorage);
-    YUZU_NON_MOVEABLE(CompressedStorage);
+    SUDACHI_NON_COPYABLE(CompressedStorage);
+    SUDACHI_NON_MOVEABLE(CompressedStorage);
 
 public:
     static constexpr size_t NodeSize = 16_KiB;
@@ -47,8 +47,8 @@ public:
 
 private:
     class CompressedStorageCore {
-        YUZU_NON_COPYABLE(CompressedStorageCore);
-        YUZU_NON_MOVEABLE(CompressedStorageCore);
+        SUDACHI_NON_COPYABLE(CompressedStorageCore);
+        SUDACHI_NON_MOVEABLE(CompressedStorageCore);
 
     public:
         CompressedStorageCore() : m_table(), m_data_storage() {}
@@ -674,8 +674,8 @@ private:
     };
 
     class CacheManager {
-        YUZU_NON_COPYABLE(CacheManager);
-        YUZU_NON_MOVEABLE(CacheManager);
+        SUDACHI_NON_COPYABLE(CacheManager);
+        SUDACHI_NON_MOVEABLE(CacheManager);
 
     private:
         struct AccessRange {

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 yuzu Emulator Project
+// SPDX-FileCopyrightText: 2023 sudachi Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -33,7 +33,7 @@ private:
      * Applies a value read from the config to a Setting.
      *
      * @param group The name of the INI group
-     * @param setting The yuzu setting to modify
+     * @param setting The sudachi setting to modify
      */
     template <typename Type, bool ranged>
     void ReadSetting(const std::string& group, Settings::Setting<Type, ranged>& setting);

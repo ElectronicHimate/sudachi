@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2022 yuzu Emulator Project
+// SPDX-FileCopyrightText: Copyright 2022 sudachi Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -16,7 +16,7 @@ namespace Core::Frontend {
 struct CabinetParameters {
     Service::NFP::TagInfo tag_info;
     Service::NFP::RegisterInfo register_info;
-    Service::NFP::CabinetMode mode;
+    Service::NFP::CabinetMode mode{};
 };
 
 using CabinetCallback = std::function<void(bool, const std::string&)>;

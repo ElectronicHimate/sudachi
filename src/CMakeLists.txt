@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2018 yuzu Emulator Project
+# SPDX-FileCopyrightText: 2018 sudachi Emulator Project
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 # Enable modules to include each other's files
@@ -88,7 +88,7 @@ if (MSVC)
         /wd4702 # unreachable code (when used with LTO)
     )
 
-    if (USE_CCACHE OR YUZU_USE_PRECOMPILED_HEADERS)
+    if (USE_CCACHE OR SUDACHI_USE_PRECOMPILED_HEADERS)
     # when caching, we need to use /Z7 to downgrade debug info to use an older but more cacheable format
     # Precompiled headers are deleted if not using /Z7. See https://github.com/nanoant/CMakePCHCompiler/issues/21
         add_compile_options(/Z7)
@@ -193,20 +193,20 @@ add_subdirectory(input_common)
 add_subdirectory(frontend_common)
 add_subdirectory(shader_recompiler)
 
-if (YUZU_ROOM)
+if (SUDACHI_ROOM)
      add_subdirectory(dedicated_room)
 endif()
 
-if (YUZU_TESTS)
+if (SUDACHI_TESTS)
     add_subdirectory(tests)
 endif()
 
 if (ENABLE_SDL2)
-    add_subdirectory(yuzu_cmd)
+    add_subdirectory(sudachi_cmd)
 endif()
 
 if (ENABLE_QT)
-    add_subdirectory(yuzu)
+    add_subdirectory(sudachi)
 endif()
 
 if (ENABLE_WEB_SERVICE)
@@ -215,5 +215,5 @@ endif()
 
 if (ANDROID)
     add_subdirectory(android/app/src/main/jni)
-    target_include_directories(yuzu-android PRIVATE android/app/src/main)
+    target_include_directories(sudachi-android PRIVATE android/app/src/main)
 endif()

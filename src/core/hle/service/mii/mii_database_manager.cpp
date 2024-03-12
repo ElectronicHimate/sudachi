@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2023 yuzu Emulator Project
+// SPDX-FileCopyrightText: Copyright 2023 sudachi Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "common/assert.h"
@@ -22,9 +22,9 @@ DatabaseManager::DatabaseManager() {}
 Result DatabaseManager::MountSaveData() {
     if (!is_save_data_mounted) {
         system_save_dir =
-            Common::FS::GetYuzuPath(Common::FS::YuzuPath::NANDDir) / "system/save/8000000000000030";
+            Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "system/save/8000000000000030";
         if (is_test_db) {
-            system_save_dir = Common::FS::GetYuzuPath(Common::FS::YuzuPath::NANDDir) /
+            system_save_dir = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
                               "system/save/8000000000000031";
         }
 

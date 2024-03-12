@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 yuzu Emulator Project
+// SPDX-FileCopyrightText: 2023 sudachi Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <memory>
@@ -125,18 +125,18 @@ void Config::ReadValues() {
 
     // Data Storage
     ReadSetting("Data Storage", Settings::values.use_virtual_sd);
-    FS::SetYuzuPath(FS::YuzuPath::NANDDir,
+    FS::SetSudachiPath(FS::SudachiPath::NANDDir,
                     config->Get("Data Storage", "nand_directory",
-                                FS::GetYuzuPathString(FS::YuzuPath::NANDDir)));
-    FS::SetYuzuPath(FS::YuzuPath::SDMCDir,
+                                FS::GetSudachiPathString(FS::SudachiPath::NANDDir)));
+    FS::SetSudachiPath(FS::SudachiPath::SDMCDir,
                     config->Get("Data Storage", "sdmc_directory",
-                                FS::GetYuzuPathString(FS::YuzuPath::SDMCDir)));
-    FS::SetYuzuPath(FS::YuzuPath::LoadDir,
+                                FS::GetSudachiPathString(FS::SudachiPath::SDMCDir)));
+    FS::SetSudachiPath(FS::SudachiPath::LoadDir,
                     config->Get("Data Storage", "load_directory",
-                                FS::GetYuzuPathString(FS::YuzuPath::LoadDir)));
-    FS::SetYuzuPath(FS::YuzuPath::DumpDir,
+                                FS::GetSudachiPathString(FS::SudachiPath::LoadDir)));
+    FS::SetSudachiPath(FS::SudachiPath::DumpDir,
                     config->Get("Data Storage", "dump_directory",
-                                FS::GetYuzuPathString(FS::YuzuPath::DumpDir)));
+                                FS::GetSudachiPathString(FS::SudachiPath::DumpDir)));
     ReadSetting("Data Storage", Settings::values.gamecard_inserted);
     ReadSetting("Data Storage", Settings::values.gamecard_current_game);
     ReadSetting("Data Storage", Settings::values.gamecard_path);
@@ -298,8 +298,8 @@ void Config::ReadValues() {
     // Web Service
     ReadSetting("WebService", Settings::values.enable_telemetry);
     ReadSetting("WebService", Settings::values.web_api_url);
-    ReadSetting("WebService", Settings::values.yuzu_username);
-    ReadSetting("WebService", Settings::values.yuzu_token);
+    ReadSetting("WebService", Settings::values.sudachi_username);
+    ReadSetting("WebService", Settings::values.sudachi_token);
 
     // Network
     ReadSetting("Network", Settings::values.network_interface);
@@ -310,7 +310,7 @@ void Config::ReadValues() {
 }
 
 void Config::Initialize(const std::string& config_name) {
-    const auto fs_config_loc = FS::GetYuzuPath(FS::YuzuPath::ConfigDir);
+    const auto fs_config_loc = FS::GetSudachiPath(FS::SudachiPath::ConfigDir);
     const auto config_file = fmt::format("{}.ini", config_name);
 
     switch (type) {

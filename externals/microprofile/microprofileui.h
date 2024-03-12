@@ -224,7 +224,7 @@ struct SOptionDesc
     char Text[32];
     uint8_t nSubType;
     uint8_t nIndex;
-    bool bSelected;
+    bool bSelected = false;
 };
 static const std::array<uint32_t, 6> g_MicroProfileAggregatePresets{0, 10, 20, 30, 60, 120};
 static const std::array<float, 10> g_MicroProfileReferenceTimePresets{5.f, 10.f, 15.f,20.f, 33.33f, 66.66f, 100.f, 250.f, 500.f, 1000.f};
@@ -476,7 +476,7 @@ inline void MicroProfileFloatWindowSize(const char** ppStrings, uint32_t nNumStr
 inline void MicroProfileDrawFloatWindow(uint32_t nX, uint32_t nY, const char** ppStrings, uint32_t nNumStrings, uint32_t nColor, uint32_t* pColors = 0)
 {
     uint32_t nWidth = 0, nHeight = 0;
-    uint32_t* nStringLengths = (uint32_t*)alloca(nNumStrings * sizeof(uint32_t));
+    uint32_t* nStringLengths = (uint32_t*)_malloca(nNumStrings * sizeof(uint32_t));
     MicroProfileFloatWindowSize(ppStrings, nNumStrings, pColors, nWidth, nHeight, nStringLengths);
     uint32_t nTextCount = nNumStrings/2;
     if(nX + nWidth > UI.nWidth)
@@ -505,7 +505,7 @@ inline void MicroProfileDrawFloatWindow(uint32_t nX, uint32_t nY, const char** p
 inline void MicroProfileDrawTextBox(uint32_t nX, uint32_t nY, const char** ppStrings, uint32_t nNumStrings, uint32_t nColor, uint32_t* pColors = 0)
 {
     uint32_t nWidth = 0, nHeight = 0;
-    uint32_t* nStringLengths = (uint32_t*)alloca(nNumStrings * sizeof(uint32_t));
+    uint32_t* nStringLengths = (uint32_t*)_malloca(nNumStrings * sizeof(uint32_t));
     for(uint32_t i = 0; i < nNumStrings; ++i)
     {
         nStringLengths[i] = (uint32_t)strlen(ppStrings[i]);
@@ -1667,7 +1667,7 @@ bool MicroProfileDrawGraph(uint32_t nScreenWidth, uint32_t nScreenHeight)
     float fDX = MICROPROFILE_GRAPH_WIDTH * 1.f / MICROPROFILE_GRAPH_HISTORY;
     float fDY = MICROPROFILE_GRAPH_HEIGHT;
     uint32_t nPut = S.nGraphPut;
-    float* pGraphData = (float*)alloca(sizeof(float)* MICROPROFILE_GRAPH_HISTORY*2);
+    float* pGraphData = (float*)_malloca(sizeof(float)* MICROPROFILE_GRAPH_HISTORY*2);
     for(uint32_t i = 0; i < MICROPROFILE_MAX_GRAPHS; ++i)
     {
         if(S.Graph[i].nToken != MICROPROFILE_INVALID_TOKEN)
@@ -1754,7 +1754,7 @@ void MicroProfileDumpTimers()
 
     uint32_t nNumTimers = S.nTotalTimers;
     uint32_t nBlockSize = 2 * nNumTimers;
-    float* pTimers = (float*)alloca(nBlockSize * 7 * sizeof(float));
+    float* pTimers = (float*)_malloca(nBlockSize * 7 * sizeof(float));
     float* pAverage = pTimers + nBlockSize;
     float* pMax = pTimers + 2 * nBlockSize;
     float* pCallAverage = pTimers + 3 * nBlockSize;
@@ -1826,7 +1826,7 @@ inline void MicroProfileDrawBarView(uint32_t nScreenWidth, uint32_t nScreenHeigh
     uint32_t nX = nTimerWidth + UI.nOffsetX;
     uint32_t nY = nHeight + 3 - UI.nOffsetY;
     uint32_t nBlockSize = 2 * nNumTimers;
-    float* pTimers = (float*)alloca(nBlockSize * 7 * sizeof(float));
+    float* pTimers = (float*)_malloca(nBlockSize * 7 * sizeof(float));
     float* pAverage = pTimers + nBlockSize;
     float* pMax = pTimers + 2 * nBlockSize;
     float* pCallAverage = pTimers + 3 * nBlockSize;
@@ -1900,7 +1900,7 @@ inline void MicroProfileDrawBarView(uint32_t nScreenWidth, uint32_t nScreenHeigh
         if(0 != (S.nBars & (MP_DRAW_META_FIRST<<i)) && S.MetaCounters[i].pName)
         {
             uint32_t nBufferSize = static_cast<uint32_t>(strlen(S.MetaCounters[i].pName) + 32);
-            char* buffer = (char*)alloca(nBufferSize);
+            char* buffer = (char*)_malloca(nBufferSize);
             if(S.nBars & MP_DRAW_TIMERS)
                 nX += MicroProfileDrawBarMetaCount(nX, nY, &S.MetaCounters[i].nCounters[0], S.MetaCounters[i].pName, nTotalHeight) + 1;
             if(S.nBars & MP_DRAW_AVERAGE)
@@ -2548,10 +2548,10 @@ inline void MicroProfileDrawCustom(uint32_t nWidth, uint32_t nHeight)
         uint32_t nReducedWidth = UI.nWidth - 2*MICROPROFILE_CUSTOM_PADDING - MICROPROFILE_GRAPH_WIDTH;
 
         char Buffer[MICROPROFILE_NAME_MAX_LEN*2+1];
-        float* pTime = (float*)alloca(sizeof(float)*nCount);
-        float* pTimeAvg = (float*)alloca(sizeof(float)*nCount);
-        float* pTimeMax = (float*)alloca(sizeof(float)*nCount);
-        uint32_t* pColors = (uint32_t*)alloca(sizeof(uint32_t)*nCount);
+        float* pTime = (float*)_malloca(sizeof(float)*nCount);
+        float* pTimeAvg = (float*)_malloca(sizeof(float)*nCount);
+        float* pTimeMax = (float*)_malloca(sizeof(float)*nCount);
+        uint32_t* pColors = (uint32_t*)_malloca(sizeof(uint32_t)*nCount);
         uint32_t nMaxOffsetX = 0;
         MicroProfileDrawBox(MICROPROFILE_CUSTOM_PADDING-1, nOffsetY-1, MICROPROFILE_CUSTOM_PADDING+nReducedWidth+1, UI.nHeight - MICROPROFILE_CUSTOM_PADDING+1, 0x88000000|g_nMicroProfileBackColors[0]);
 
@@ -3135,7 +3135,7 @@ void MicroProfileLoadPreset(const char* pSuffix)
     }
     fseek(F, 0, SEEK_END);
     int nSize = ftell(F);
-    char* const pBuffer = (char*)alloca(nSize);
+    char* const pBuffer = (char*)_malloca(nSize);
     fseek(F, 0, SEEK_SET);
     int nRead = (int)fread(pBuffer, nSize, 1, F);
     fclose(F);

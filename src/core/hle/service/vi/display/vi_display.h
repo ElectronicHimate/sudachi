@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2019 yuzu Emulator Project
+// SPDX-FileCopyrightText: Copyright 2019 sudachi Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -45,8 +45,8 @@ class Layer;
 /// Represents a single display type
 class Display {
 public:
-    YUZU_NON_COPYABLE(Display);
-    YUZU_NON_MOVEABLE(Display);
+    SUDACHI_NON_COPYABLE(Display);
+    SUDACHI_NON_MOVEABLE(Display);
 
     /// Constructs a display with a given unique ID and name.
     ///

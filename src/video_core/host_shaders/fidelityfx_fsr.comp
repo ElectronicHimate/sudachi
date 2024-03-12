@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2021 yuzu Emulator Project
+// SPDX-FileCopyrightText: Copyright 2021 sudachi Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 //!#version 460 core
@@ -39,7 +39,7 @@ layout(set=0,binding=1,rgba16f) uniform image2D OutputTexture;
 #define A_GPU 1
 #define A_GLSL 1
 
-#ifndef YUZU_USE_FP16
+#ifndef SUDACHI_USE_FP16
     #include "ffx_a.h"
 
     #if USE_EASU
@@ -78,7 +78,7 @@ void CurrFilter(AU2 pos) {
     imageStore(OutputTexture, ASU2(pos), textureLod(InputTexture, pp, 0.0));
 #endif
 #if USE_EASU
-    #ifndef YUZU_USE_FP16
+    #ifndef SUDACHI_USE_FP16
         AF3 c;
         FsrEasuF(c, pos, Const0, Const1, Const2, Const3);
         imageStore(OutputTexture, ASU2(pos), AF4(c, 1));
@@ -89,7 +89,7 @@ void CurrFilter(AU2 pos) {
     #endif
 #endif
 #if USE_RCAS
-    #ifndef YUZU_USE_FP16
+    #ifndef SUDACHI_USE_FP16
         AF3 c;
         FsrRcasF(c.r, c.g, c.b, pos, Const0);
         imageStore(OutputTexture, ASU2(pos), AF4(c, 1));

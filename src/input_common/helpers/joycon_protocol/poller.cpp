@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2022 yuzu Emulator Project
+// SPDX-FileCopyrightText: Copyright 2022 sudachi Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "common/logging/log.h"
@@ -13,7 +13,7 @@ JoyconPoller::JoyconPoller(ControllerType device_type_, JoyStickCalibration left
       right_stick_calibration{right_stick_calibration_}, motion_calibration{motion_calibration_} {}
 
 void JoyconPoller::SetCallbacks(const JoyconCallbacks& callbacks_) {
-    callbacks = std::move(callbacks_);
+    callbacks = callbacks_;
 }
 
 void JoyconPoller::ReadActiveMode(std::span<u8> buffer, const MotionStatus& motion_status,

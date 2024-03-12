@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2023 yuzu Emulator Project
+// SPDX-FileCopyrightText: Copyright 2023 sudachi Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -11,8 +11,8 @@
 namespace FileSys {
 
 class IntegrityVerificationStorage : public IReadOnlyStorage {
-    YUZU_NON_COPYABLE(IntegrityVerificationStorage);
-    YUZU_NON_MOVEABLE(IntegrityVerificationStorage);
+    SUDACHI_NON_COPYABLE(IntegrityVerificationStorage);
+    SUDACHI_NON_MOVEABLE(IntegrityVerificationStorage);
 
 public:
     static constexpr s64 HashSize = 256 / 8;

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 yuzu Emulator Project
+// SPDX-FileCopyrightText: 2023 sudachi Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -435,11 +435,11 @@ custom_rtc =
 # 14: Latin American Spanish, 15: Simplified Chinese, 16: Traditional Chinese, 17: Brazilian Portuguese
 language_index =
 
-# The system region that yuzu will use during emulation
+# The system region that sudachi will use during emulation
 # -1: Auto-select (default), 0: Japan, 1: USA, 2: Europe, 3: Australia, 4: China, 5: Korea, 6: Taiwan
 region_index =
 
-# The system time zone that yuzu will use during emulation
+# The system time zone that sudachi will use during emulation
 # 0: Auto-select (default), 1: Default (system archive value), Others: Index for specified time zone
 time_zone_index =
 
@@ -459,15 +459,15 @@ use_dev_keys =
 [Debugging]
 # Record frame time data, can be found in the log directory. Boolean value
 record_frame_times =
-# Determines whether or not yuzu will dump the ExeFS of all games it attempts to load while loading them
+# Determines whether or not sudachi will dump the ExeFS of all games it attempts to load while loading them
 dump_exefs=false
-# Determines whether or not yuzu will dump all NSOs it attempts to load while loading them
+# Determines whether or not sudachi will dump all NSOs it attempts to load while loading them
 dump_nso=false
-# Determines whether or not yuzu will save the filesystem access log.
+# Determines whether or not sudachi will save the filesystem access log.
 enable_fs_access_log=false
 # Enables verbose reporting services
 reporting_services =
-# Determines whether or not yuzu will report to the game that the emulated console is in Kiosk Mode
+# Determines whether or not sudachi will report to the game that the emulated console is in Kiosk Mode
 # false: Retail/Normal Mode (default), true: Kiosk Mode
 quest_flag =
 # Determines whether debug asserts should be enabled, which will throw an exception on asserts.
@@ -489,14 +489,14 @@ gdbstub_port=6543
 # 0: No, 1 (default): Yes
 enable_telemetry =
 # URL for Web API
-web_api_url = https://api.yuzu-emu.org
-# Username and token for yuzu Web Service
-# See https://profile.yuzu-emu.org/ for more info
-yuzu_username =
-yuzu_token =
+web_api_url = https://api.sudachi-emu.org
+# Username and token for sudachi Web Service
+# See https://profile.sudachi-emu.org/ for more info
+sudachi_username =
+sudachi_token =
 
 [Network]
-# Name of the network interface device to use with yuzu LAN play.
+# Name of the network interface device to use with sudachi LAN play.
 # e.g. On *nix: 'enp7s0', 'wlp6s0u1u3u3', 'lo'
 # e.g. On Windows: 'Ethernet', 'Wi-Fi'
 network_interface =

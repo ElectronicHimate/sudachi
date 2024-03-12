@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 yuzu Emulator Project
+// SPDX-FileCopyrightText: 2023 sudachi Emulator Project
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
@@ -9,7 +9,7 @@ plugins {
 }
 
 tasks.register("clean").configure {
-    delete(rootProject.layout.buildDirectory.asFile)
+    delete(rootProject.layout.buildDirectory.asFile.toString())
 }
 
 buildscript {

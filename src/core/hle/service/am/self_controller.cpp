@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2024 yuzu Emulator Project
+// SPDX-FileCopyrightText: Copyright 2024 sudachi Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "common/logging/log.h"
@@ -404,7 +404,7 @@ void ISelfController::GetAccumulatedSuspendedTickValue(HLERequestContext& ctx) {
 
     std::scoped_lock lk{applet->lock};
     // This command returns the total number of system ticks since ISelfController creation
-    // where the game was suspended. Since Yuzu doesn't implement game suspension, this command
+    // where the game was suspended. Since Sudachi doesn't implement game suspension, this command
     // can just always return 0 ticks.
     IPC::ResponseBuilder rb{ctx, 4};
     rb.Push(ResultSuccess);

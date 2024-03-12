@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <algorithm>
@@ -241,8 +241,8 @@ void BufferCacheRuntime::BindVertexBuffer(u32 index, Buffer& buffer, u32 offset,
 
 void BufferCacheRuntime::BindVertexBuffers(VideoCommon::HostBindings<Buffer>& bindings) {
     // TODO: Should HostBindings provide the correct runtime types to avoid these transforms?
-    std::array<GLuint, 32> buffer_handles;
-    std::array<GLsizei, 32> buffer_strides;
+    std::array<GLuint, 32> buffer_handles{};
+    std::array<GLsizei, 32> buffer_strides{};
     std::ranges::transform(bindings.buffers, buffer_handles.begin(),
                            [](const Buffer* const buffer) { return buffer->Handle(); });
     std::ranges::transform(bindings.strides, buffer_strides.begin(),

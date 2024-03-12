@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2018 yuzu Emulator Project
+// SPDX-FileCopyrightText: Copyright 2018 sudachi Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #pragma once
@@ -122,9 +122,9 @@ public:
     /// - Forcibly debug other processes.
     ///
     /// Note that this is not a behavior that the kernel allows a process to do via
-    /// a single function like this. This is yuzu-specific behavior to handle
+    /// a single function like this. This is sudachi-specific behavior to handle
     /// executables with no capability descriptors whatsoever to derive behavior from.
-    /// It being yuzu-specific is why this is also not the default behavior and not
+    /// It being sudachi-specific is why this is also not the default behavior and not
     /// done by default in the constructor.
     ///
     void InitializeForMetadatalessProcess();
@@ -214,7 +214,7 @@ private:
     /// anything external should depend upon (and if anything comes to rely on it,
     /// you should immediately be questioning the design of that thing, not this
     /// class. If the kernel itself can run without depending on behavior like that,
-    /// then so can yuzu).
+    /// then so can sudachi).
     ///
     void Clear();
 

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2021 yuzu Emulator Project
+// SPDX-FileCopyrightText: Copyright 2021 sudachi Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <algorithm>
@@ -56,10 +56,10 @@ namespace fs = std::filesystem;
 
 /**
  * The PathManagerImpl is a singleton allowing to manage the mapping of
- * YuzuPath enums to real filesystem paths.
- * This class provides 2 functions: GetYuzuPathImpl and SetYuzuPathImpl.
- * These are used by GetYuzuPath and SetYuzuPath respectively to get or modify
- * the path mapped by the YuzuPath enum.
+ * SudachiPath enums to real filesystem paths.
+ * This class provides 2 functions: GetSudachiPathImpl and SetSudachiPathImpl.
+ * These are used by GetSudachiPath and SetSudachiPath respectively to get or modify
+ * the path mapped by the SudachiPath enum.
  */
 class PathManagerImpl {
 public:
@@ -75,62 +75,62 @@ public:
     PathManagerImpl(PathManagerImpl&&) = delete;
     PathManagerImpl& operator=(PathManagerImpl&&) = delete;
 
-    [[nodiscard]] const fs::path& GetYuzuPathImpl(YuzuPath yuzu_path) {
-        return yuzu_paths.at(yuzu_path);
+    [[nodiscard]] const fs::path& GetSudachiPathImpl(SudachiPath sudachi_path) {
+        return sudachi_paths.at(sudachi_path);
     }
 
-    void SetYuzuPathImpl(YuzuPath yuzu_path, const fs::path& new_path) {
-        yuzu_paths.insert_or_assign(yuzu_path, new_path);
+    void SetSudachiPathImpl(SudachiPath sudachi_path, const fs::path& new_path) {
+        sudachi_paths.insert_or_assign(sudachi_path, new_path);
     }
 
-    void Reinitialize(fs::path yuzu_path = {}) {
-        fs::path yuzu_path_cache;
-        fs::path yuzu_path_config;
+    void Reinitialize(fs::path sudachi_path = {}) {
+        fs::path sudachi_path_cache;
+        fs::path sudachi_path_config;
 
 #ifdef _WIN32
-#ifdef YUZU_ENABLE_PORTABLE
-        yuzu_path = GetExeDirectory() / PORTABLE_DIR;
+#ifdef SUDACHI_ENABLE_PORTABLE
+        sudachi_path = GetExeDirectory() / PORTABLE_DIR;
 #endif
-        if (!IsDir(yuzu_path)) {
-            yuzu_path = GetAppDataRoamingDirectory() / YUZU_DIR;
+        if (!IsDir(sudachi_path)) {
+            sudachi_path = GetAppDataRoamingDirectory() / SUDACHI_DIR;
         }
 
-        yuzu_path_cache = yuzu_path / CACHE_DIR;
-        yuzu_path_config = yuzu_path / CONFIG_DIR;
+        sudachi_path_cache = sudachi_path / CACHE_DIR;
+        sudachi_path_config = sudachi_path / CONFIG_DIR;
 #elif ANDROID
-        ASSERT(!yuzu_path.empty());
-        yuzu_path_cache = yuzu_path / CACHE_DIR;
-        yuzu_path_config = yuzu_path / CONFIG_DIR;
+        ASSERT(!sudachi_path.empty());
+        sudachi_path_cache = sudachi_path / CACHE_DIR;
+        sudachi_path_config = sudachi_path / CONFIG_DIR;
 #else
-#ifdef YUZU_ENABLE_PORTABLE
-        yuzu_path = GetCurrentDir() / PORTABLE_DIR;
+#ifdef SUDACHI_ENABLE_PORTABLE
+        sudachi_path = GetCurrentDir() / PORTABLE_DIR;
 #endif
-        if (Exists(yuzu_path) && IsDir(yuzu_path)) {
-            yuzu_path_cache = yuzu_path / CACHE_DIR;
-            yuzu_path_config = yuzu_path / CONFIG_DIR;
+        if (Exists(sudachi_path) && IsDir(sudachi_path)) {
+            sudachi_path_cache = sudachi_path / CACHE_DIR;
+            sudachi_path_config = sudachi_path / CONFIG_DIR;
         } else {
-            yuzu_path = GetDataDirectory("XDG_DATA_HOME") / YUZU_DIR;
-            yuzu_path_cache = GetDataDirectory("XDG_CACHE_HOME") / YUZU_DIR;
-            yuzu_path_config = GetDataDirectory("XDG_CONFIG_HOME") / YUZU_DIR;
+            sudachi_path = GetDataDirectory("XDG_DATA_HOME") / SUDACHI_DIR;
+            sudachi_path_cache = GetDataDirectory("XDG_CACHE_HOME") / SUDACHI_DIR;
+            sudachi_path_config = GetDataDirectory("XDG_CONFIG_HOME") / SUDACHI_DIR;
         }
 #endif
 
-        GenerateYuzuPath(YuzuPath::YuzuDir, yuzu_path);
-        GenerateYuzuPath(YuzuPath::AmiiboDir, yuzu_path / AMIIBO_DIR);
-        GenerateYuzuPath(YuzuPath::CacheDir, yuzu_path_cache);
-        GenerateYuzuPath(YuzuPath::ConfigDir, yuzu_path_config);
-        GenerateYuzuPath(YuzuPath::CrashDumpsDir, yuzu_path / CRASH_DUMPS_DIR);
-        GenerateYuzuPath(YuzuPath::DumpDir, yuzu_path / DUMP_DIR);
-        GenerateYuzuPath(YuzuPath::KeysDir, yuzu_path / KEYS_DIR);
-        GenerateYuzuPath(YuzuPath::LoadDir, yuzu_path / LOAD_DIR);
-        GenerateYuzuPath(YuzuPath::LogDir, yuzu_path / LOG_DIR);
-        GenerateYuzuPath(YuzuPath::NANDDir, yuzu_path / NAND_DIR);
-        GenerateYuzuPath(YuzuPath::PlayTimeDir, yuzu_path / PLAY_TIME_DIR);
-        GenerateYuzuPath(YuzuPath::ScreenshotsDir, yuzu_path / SCREENSHOTS_DIR);
-        GenerateYuzuPath(YuzuPath::SDMCDir, yuzu_path / SDMC_DIR);
-        GenerateYuzuPath(YuzuPath::ShaderDir, yuzu_path / SHADER_DIR);
-        GenerateYuzuPath(YuzuPath::TASDir, yuzu_path / TAS_DIR);
-        GenerateYuzuPath(YuzuPath::IconsDir, yuzu_path / ICONS_DIR);
+        GenerateSudachiPath(SudachiPath::SudachiDir, sudachi_path);
+        GenerateSudachiPath(SudachiPath::AmiiboDir, sudachi_path / AMIIBO_DIR);
+        GenerateSudachiPath(SudachiPath::CacheDir, sudachi_path_cache);
+        GenerateSudachiPath(SudachiPath::ConfigDir, sudachi_path_config);
+        GenerateSudachiPath(SudachiPath::CrashDumpsDir, sudachi_path / CRASH_DUMPS_DIR);
+        GenerateSudachiPath(SudachiPath::DumpDir, sudachi_path / DUMP_DIR);
+        GenerateSudachiPath(SudachiPath::KeysDir, sudachi_path / KEYS_DIR);
+        GenerateSudachiPath(SudachiPath::LoadDir, sudachi_path / LOAD_DIR);
+        GenerateSudachiPath(SudachiPath::LogDir, sudachi_path / LOG_DIR);
+        GenerateSudachiPath(SudachiPath::NANDDir, sudachi_path / NAND_DIR);
+        GenerateSudachiPath(SudachiPath::PlayTimeDir, sudachi_path / PLAY_TIME_DIR);
+        GenerateSudachiPath(SudachiPath::ScreenshotsDir, sudachi_path / SCREENSHOTS_DIR);
+        GenerateSudachiPath(SudachiPath::SDMCDir, sudachi_path / SDMC_DIR);
+        GenerateSudachiPath(SudachiPath::ShaderDir, sudachi_path / SHADER_DIR);
+        GenerateSudachiPath(SudachiPath::TASDir, sudachi_path / TAS_DIR);
+        GenerateSudachiPath(SudachiPath::IconsDir, sudachi_path / ICONS_DIR);
     }
 
 private:
@@ -140,13 +140,13 @@ private:
 
     ~PathManagerImpl() = default;
 
-    void GenerateYuzuPath(YuzuPath yuzu_path, const fs::path& new_path) {
+    void GenerateSudachiPath(SudachiPath sudachi_path, const fs::path& new_path) {
         void(FS::CreateDir(new_path));
 
-        SetYuzuPathImpl(yuzu_path, new_path);
+        SetSudachiPathImpl(sudachi_path, new_path);
     }
 
-    std::unordered_map<YuzuPath, fs::path> yuzu_paths;
+    std::unordered_map<SudachiPath, fs::path> sudachi_paths;
 };
 
 bool ValidatePath(const fs::path& path) {
@@ -230,22 +230,22 @@ void SetAppDirectory(const std::string& app_directory) {
     PathManagerImpl::GetInstance().Reinitialize(app_directory);
 }
 
-const fs::path& GetYuzuPath(YuzuPath yuzu_path) {
-    return PathManagerImpl::GetInstance().GetYuzuPathImpl(yuzu_path);
+const fs::path& GetSudachiPath(SudachiPath sudachi_path) {
+    return PathManagerImpl::GetInstance().GetSudachiPathImpl(sudachi_path);
 }
 
-std::string GetYuzuPathString(YuzuPath yuzu_path) {
-    return PathToUTF8String(GetYuzuPath(yuzu_path));
+std::string GetSudachiPathString(SudachiPath sudachi_path) {
+    return PathToUTF8String(GetSudachiPath(sudachi_path));
 }
 
-void SetYuzuPath(YuzuPath yuzu_path, const fs::path& new_path) {
+void SetSudachiPath(SudachiPath sudachi_path, const fs::path& new_path) {
     if (!FS::IsDir(new_path)) {
         LOG_ERROR(Common_Filesystem, "Filesystem object at new_path={} is not a directory",
                   PathToUTF8String(new_path));
         return;
     }
 
-    PathManagerImpl::GetInstance().SetYuzuPathImpl(yuzu_path, new_path);
+    PathManagerImpl::GetInstance().SetSudachiPathImpl(sudachi_path, new_path);
 }
 
 #ifdef _WIN32

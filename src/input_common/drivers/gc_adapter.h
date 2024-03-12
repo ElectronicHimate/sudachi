@@ -117,7 +117,7 @@ private:
     Common::Input::ButtonNames GetUIButtonName(const Common::ParamPackage& params) const;
 
     std::unique_ptr<LibUSBDeviceHandle> usb_adapter_handle;
-    std::array<GCController, 4> pads;
+    std::array<GCController, 4> pads{};
 
     std::jthread adapter_input_thread;
     std::jthread adapter_scan_thread;

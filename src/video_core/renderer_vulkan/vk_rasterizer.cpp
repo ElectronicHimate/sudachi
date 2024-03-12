@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2019 yuzu Emulator Project
+// SPDX-FileCopyrightText: Copyright 2019 sudachi Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <algorithm>
@@ -111,7 +111,7 @@ VkViewport GetViewportState(const Device& device, const Maxwell& regs, size_t in
 
 VkRect2D GetScissorState(const Maxwell& regs, size_t index, u32 up_scale = 1, u32 down_shift = 0) {
     const auto& src = regs.scissor_test[index];
-    VkRect2D scissor;
+    VkRect2D scissor{};
     const auto scale_up = [&](s32 value) -> s32 {
         if (value == 0) {
             return 0U;
@@ -382,7 +382,7 @@ void RasterizerVulkan::Clear(u32 layer_count) {
     }
     UpdateViewportsState(regs);
 
-    VkRect2D default_scissor;
+    VkRect2D default_scissor{};
     default_scissor.offset.x = 0;
     default_scissor.offset.y = 0;
     default_scissor.extent.width = std::numeric_limits<s32>::max();
@@ -1034,7 +1034,7 @@ void RasterizerVulkan::UpdateScissorsState(Tegra::Engines::Maxwell3D::Regs& regs
         const auto y = static_cast<float>(regs.surface_clip.y);
         const auto width = static_cast<float>(regs.surface_clip.width);
         const auto height = static_cast<float>(regs.surface_clip.height);
-        VkRect2D scissor;
+        VkRect2D scissor{};
         scissor.offset.x = static_cast<u32>(x);
         scissor.offset.y = static_cast<u32>(y);
         scissor.extent.width = static_cast<u32>(width != 0.0f ? width : 1.0f);

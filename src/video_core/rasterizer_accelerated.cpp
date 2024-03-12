@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2019 yuzu Emulator Project
+// SPDX-FileCopyrightText: Copyright 2019 sudachi Emulator Project
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include <atomic>
@@ -25,8 +25,8 @@ void RasterizerAccelerated::UpdatePagesCachedCount(VAddr addr, u64 size, int del
     u64 cache_bytes = 0;
 
     std::atomic_thread_fence(std::memory_order_acquire);
-    const u64 page_end = Common::DivCeil(addr + size, YUZU_PAGESIZE);
-    for (u64 page = addr >> YUZU_PAGEBITS; page != page_end; ++page) {
+    const u64 page_end = Common::DivCeil(addr + size, SUDACHI_PAGESIZE);
+    for (u64 page = addr >> SUDACHI_PAGEBITS; page != page_end; ++page) {
         std::atomic_uint16_t& count = cached_pages->at(page >> 2).Count(page);
 
         if (delta > 0) {
@@ -45,9 +45,9 @@ void RasterizerAccelerated::UpdatePagesCachedCount(VAddr addr, u64 size, int del
             if (uncache_bytes == 0) {
                 uncache_begin = page;
             }
-            uncache_bytes += YUZU_PAGESIZE;
+            uncache_bytes += SUDACHI_PAGESIZE;
         } else if (uncache_bytes > 0) {
-            cpu_memory.RasterizerMarkRegionCached(uncache_begin << YUZU_PAGEBITS, uncache_bytes,
+            cpu_memory.RasterizerMarkRegionCached(uncache_begin << SUDACHI_PAGEBITS, uncache_bytes,
                                                   false);
             uncache_bytes = 0;
         }
@@ -55,17 +55,17 @@ void RasterizerAccelerated::UpdatePagesCachedCount(VAddr addr, u64 size, int del
             if (cache_bytes == 0) {
                 cache_begin = page;
             }
-            cache_bytes += YUZU_PAGESIZE;
+            cache_bytes += SUDACHI_PAGESIZE;
         } else if (cache_bytes > 0) {
-            cpu_memory.RasterizerMarkRegionCached(cache_begin << YUZU_PAGEBITS, cache_bytes, true);
+            cpu_memory.RasterizerMarkRegionCached(cache_begin << SUDACHI_PAGEBITS, cache_bytes, true);
             cache_bytes = 0;
         }
     }
     if (uncache_bytes > 0) {
-        cpu_memory.RasterizerMarkRegionCached(uncache_begin << YUZU_PAGEBITS, uncache_bytes, false);
+        cpu_memory.RasterizerMarkRegionCached(uncache_begin << SUDACHI_PAGEBITS, uncache_bytes, false);
     }
     if (cache_bytes > 0) {
-        cpu_memory.RasterizerMarkRegionCached(cache_begin << YUZU_PAGEBITS, cache_bytes, true);
+        cpu_memory.RasterizerMarkRegionCached(cache_begin << SUDACHI_PAGEBITS, cache_bytes, true);
     }
 }
 
