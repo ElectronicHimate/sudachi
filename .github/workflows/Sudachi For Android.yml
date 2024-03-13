@@ -71,7 +71,7 @@ jobs:
           CMAKE_CXX_COMPILER_LAUNCHER: "ccache"
           CCACHE_COMPILERCHECK: "string:${{ env.NDK_VERSION }}"
         run: |
-          mv assembleMainlineRelease assembleMainlineReldebug
+          mv sudachi/src/android/app assembleMainlineRelease assembleMainlineReldebug
 
       - name: Rename APKs (Signed)
         if: env.IS_BUILD_SIGNED == 'true' && env.UPLOAD_ARTIFACTS == 'true'
