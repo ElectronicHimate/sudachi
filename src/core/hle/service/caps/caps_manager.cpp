@@ -303,7 +303,8 @@ void AlbumManager::FindScreenshots() {
     album_files.clear();
 
     // TODO: Swap this with a blocking operation.
-    const auto screenshots_dir = Common::FS::GetSudachiPath(Common::FS::SudachiPath::ScreenshotsDir);
+    const auto screenshots_dir =
+        Common::FS::GetSudachiPath(Common::FS::SudachiPath::ScreenshotsDir);
     Common::FS::IterateDirEntries(
         screenshots_dir,
         [this](const std::filesystem::path& full_path) {

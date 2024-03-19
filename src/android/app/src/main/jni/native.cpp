@@ -436,7 +436,7 @@ static Core::SystemResultStatus RunEmulation(const std::string& filepath,
 extern "C" {
 
 void Java_org_sudachi_sudachi_1emu_NativeLibrary_surfaceChanged(JNIEnv* env, jobject instance,
-                                                          [[maybe_unused]] jobject surf) {
+                                                                [[maybe_unused]] jobject surf) {
     EmulationSession::GetInstance().SetNativeWindow(ANativeWindow_fromSurface(env, surf));
     EmulationSession::GetInstance().SurfaceChanged();
 }
@@ -447,13 +447,14 @@ void Java_org_sudachi_sudachi_1emu_NativeLibrary_surfaceDestroyed(JNIEnv* env, j
     EmulationSession::GetInstance().SurfaceChanged();
 }
 
-void Java_org_sudachi_sudachi_1emu_NativeLibrary_setAppDirectory(JNIEnv* env, jobject instance,
-                                                           [[maybe_unused]] jstring j_directory) {
+void Java_org_sudachi_sudachi_1emu_NativeLibrary_setAppDirectory(
+    JNIEnv* env, jobject instance, [[maybe_unused]] jstring j_directory) {
     Common::FS::SetAppDirectory(Common::Android::GetJString(env, j_directory));
 }
 
 int Java_org_sudachi_sudachi_1emu_NativeLibrary_installFileToNand(JNIEnv* env, jobject instance,
-                                                            jstring j_file, jobject jcallback) {
+                                                                  jstring j_file,
+                                                                  jobject jcallback) {
     auto jlambdaClass = env->GetObjectClass(jcallback);
     auto jlambdaInvokeMethod = env->GetMethodID(
         jlambdaClass, "invoke", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
@@ -470,9 +471,10 @@ int Java_org_sudachi_sudachi_1emu_NativeLibrary_installFileToNand(JNIEnv* env, j
                                    Common::Android::GetJString(env, j_file), callback));
 }
 
-jboolean Java_org_sudachi_sudachi_1emu_NativeLibrary_doesUpdateMatchProgram(JNIEnv* env, jobject jobj,
-                                                                      jstring jprogramId,
-                                                                      jstring jupdatePath) {
+jboolean Java_org_sudachi_sudachi_1emu_NativeLibrary_doesUpdateMatchProgram(JNIEnv* env,
+                                                                            jobject jobj,
+                                                                            jstring jprogramId,
+                                                                            jstring jupdatePath) {
     u64 program_id = EmulationSession::GetProgramId(env, jprogramId);
     std::string updatePath = Common::Android::GetJString(env, jupdatePath);
     std::shared_ptr<FileSys::NSP> nsp = std::make_shared<FileSys::NSP>(
@@ -491,11 +493,9 @@ jboolean Java_org_sudachi_sudachi_1emu_NativeLibrary_doesUpdateMatchProgram(JNIE
     return false;
 }
 
-void JNICALL Java_org_sudachi_sudachi_1emu_NativeLibrary_initializeGpuDriver(JNIEnv* env, jclass clazz,
-                                                                       jstring hook_lib_dir,
-                                                                       jstring custom_driver_dir,
-                                                                       jstring custom_driver_name,
-                                                                       jstring file_redirect_dir) {
+void JNICALL Java_org_sudachi_sudachi_1emu_NativeLibrary_initializeGpuDriver(
+    JNIEnv* env, jclass clazz, jstring hook_lib_dir, jstring custom_driver_dir,
+    jstring custom_driver_name, jstring file_redirect_dir) {
     EmulationSession::GetInstance().InitializeGpuDriver(
         Common::Android::GetJString(env, hook_lib_dir),
         Common::Android::GetJString(env, custom_driver_dir),
@@ -581,7 +581,7 @@ jboolean Java_org_sudachi_sudachi_1emu_NativeLibrary_isPaused(JNIEnv* env, jclas
 }
 
 void Java_org_sudachi_sudachi_1emu_NativeLibrary_initializeSystem(JNIEnv* env, jclass clazz,
-                                                            jboolean reload) {
+                                                                  jboolean reload) {
     // Initialize the emulated system.
     if (!reload) {
         EmulationSession::GetInstance().System().Initialize();
@@ -628,8 +628,8 @@ void Java_org_sudachi_sudachi_1emu_NativeLibrary_logSettings(JNIEnv* env, jobjec
 }
 
 void Java_org_sudachi_sudachi_1emu_NativeLibrary_run(JNIEnv* env, jobject jobj, jstring j_path,
-                                               jint j_program_index,
-                                               jboolean j_frontend_initiated) {
+                                                     jint j_program_index,
+                                                     jboolean j_frontend_initiated) {
     const std::string path = Common::Android::GetJString(env, j_path);
 
     const Core::SystemResultStatus result{
@@ -647,18 +647,19 @@ void Java_org_sudachi_sudachi_1emu_NativeLibrary_logDeviceInfo(JNIEnv* env, jcla
 }
 
 void Java_org_sudachi_sudachi_1emu_NativeLibrary_submitInlineKeyboardText(JNIEnv* env, jclass clazz,
-                                                                    jstring j_text) {
+                                                                          jstring j_text) {
     const std::u16string input = Common::UTF8ToUTF16(Common::Android::GetJString(env, j_text));
     EmulationSession::GetInstance().SoftwareKeyboard()->SubmitInlineKeyboardText(input);
 }
 
-void Java_org_sudachi_sudachi_1emu_NativeLibrary_submitInlineKeyboardInput(JNIEnv* env, jclass clazz,
-                                                                     jint j_key_code) {
+void Java_org_sudachi_sudachi_1emu_NativeLibrary_submitInlineKeyboardInput(JNIEnv* env,
+                                                                           jclass clazz,
+                                                                           jint j_key_code) {
     EmulationSession::GetInstance().SoftwareKeyboard()->SubmitInlineKeyboardInput(j_key_code);
 }
 
 void Java_org_sudachi_sudachi_1emu_NativeLibrary_initializeEmptyUserDirectory(JNIEnv* env,
-                                                                        jobject instance) {
+                                                                              jobject instance) {
     const auto nand_dir = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir);
     auto vfs_nand_dir = EmulationSession::GetInstance().System().GetFilesystem()->OpenDirectory(
         Common::FS::PathToUTF8String(nand_dir), FileSys::OpenMode::Read);
@@ -678,7 +679,7 @@ void Java_org_sudachi_sudachi_1emu_NativeLibrary_initializeEmptyUserDirectory(JN
 }
 
 jstring Java_org_sudachi_sudachi_1emu_NativeLibrary_getAppletLaunchPath(JNIEnv* env, jclass clazz,
-                                                                  jlong jid) {
+                                                                        jlong jid) {
     auto bis_system =
         EmulationSession::GetInstance().System().GetFileSystemController().GetSystemNANDContents();
     if (!bis_system) {
@@ -695,17 +696,18 @@ jstring Java_org_sudachi_sudachi_1emu_NativeLibrary_getAppletLaunchPath(JNIEnv* 
 }
 
 void Java_org_sudachi_sudachi_1emu_NativeLibrary_setCurrentAppletId(JNIEnv* env, jclass clazz,
-                                                              jint jappletId) {
+                                                                    jint jappletId) {
     EmulationSession::GetInstance().SetAppletId(jappletId);
 }
 
 void Java_org_sudachi_sudachi_1emu_NativeLibrary_setCabinetMode(JNIEnv* env, jclass clazz,
-                                                          jint jcabinetMode) {
+                                                                jint jcabinetMode) {
     EmulationSession::GetInstance().System().GetFrontendAppletHolder().SetCabinetMode(
         static_cast<Service::NFP::CabinetMode>(jcabinetMode));
 }
 
-jboolean Java_org_sudachi_sudachi_1emu_NativeLibrary_isFirmwareAvailable(JNIEnv* env, jclass clazz) {
+jboolean Java_org_sudachi_sudachi_1emu_NativeLibrary_isFirmwareAvailable(JNIEnv* env,
+                                                                         jclass clazz) {
     auto bis_system =
         EmulationSession::GetInstance().System().GetFileSystemController().GetSystemNANDContents();
     if (!bis_system) {
@@ -721,9 +723,10 @@ jboolean Java_org_sudachi_sudachi_1emu_NativeLibrary_isFirmwareAvailable(JNIEnv*
     return true;
 }
 
-jobjectArray Java_org_sudachi_sudachi_1emu_NativeLibrary_getPatchesForFile(JNIEnv* env, jobject jobj,
-                                                                     jstring jpath,
-                                                                     jstring jprogramId) {
+jobjectArray Java_org_sudachi_sudachi_1emu_NativeLibrary_getPatchesForFile(JNIEnv* env,
+                                                                           jobject jobj,
+                                                                           jstring jpath,
+                                                                           jstring jprogramId) {
     const auto path = Common::Android::GetJString(env, jpath);
     const auto vFile =
         Core::GetGameFileFromPath(EmulationSession::GetInstance().System().GetFilesystem(), path);
@@ -758,28 +761,27 @@ jobjectArray Java_org_sudachi_sudachi_1emu_NativeLibrary_getPatchesForFile(JNIEn
 }
 
 void Java_org_sudachi_sudachi_1emu_NativeLibrary_removeUpdate(JNIEnv* env, jobject jobj,
-                                                        jstring jprogramId) {
+                                                              jstring jprogramId) {
     auto program_id = EmulationSession::GetProgramId(env, jprogramId);
     ContentManager::RemoveUpdate(EmulationSession::GetInstance().System().GetFileSystemController(),
                                  program_id);
 }
 
 void Java_org_sudachi_sudachi_1emu_NativeLibrary_removeDLC(JNIEnv* env, jobject jobj,
-                                                     jstring jprogramId) {
+                                                           jstring jprogramId) {
     auto program_id = EmulationSession::GetProgramId(env, jprogramId);
     ContentManager::RemoveAllDLC(EmulationSession::GetInstance().System(), program_id);
 }
 
-void Java_org_sudachi_sudachi_1emu_NativeLibrary_removeMod(JNIEnv* env, jobject jobj, jstring jprogramId,
-                                                     jstring jname) {
+void Java_org_sudachi_sudachi_1emu_NativeLibrary_removeMod(JNIEnv* env, jobject jobj,
+                                                           jstring jprogramId, jstring jname) {
     auto program_id = EmulationSession::GetProgramId(env, jprogramId);
     ContentManager::RemoveMod(EmulationSession::GetInstance().System().GetFileSystemController(),
                               program_id, Common::Android::GetJString(env, jname));
 }
 
-jobjectArray Java_org_sudachi_sudachi_1emu_NativeLibrary_verifyInstalledContents(JNIEnv* env,
-                                                                           jobject jobj,
-                                                                           jobject jcallback) {
+jobjectArray Java_org_sudachi_sudachi_1emu_NativeLibrary_verifyInstalledContents(
+    JNIEnv* env, jobject jobj, jobject jcallback) {
     auto jlambdaClass = env->GetObjectClass(jcallback);
     auto jlambdaInvokeMethod = env->GetMethodID(
         jlambdaClass, "invoke", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
@@ -802,7 +804,8 @@ jobjectArray Java_org_sudachi_sudachi_1emu_NativeLibrary_verifyInstalledContents
 }
 
 jint Java_org_sudachi_sudachi_1emu_NativeLibrary_verifyGameContents(JNIEnv* env, jobject jobj,
-                                                              jstring jpath, jobject jcallback) {
+                                                                    jstring jpath,
+                                                                    jobject jcallback) {
     auto jlambdaClass = env->GetObjectClass(jcallback);
     auto jlambdaInvokeMethod = env->GetMethodID(
         jlambdaClass, "invoke", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
@@ -818,7 +821,7 @@ jint Java_org_sudachi_sudachi_1emu_NativeLibrary_verifyGameContents(JNIEnv* env,
 }
 
 jstring Java_org_sudachi_sudachi_1emu_NativeLibrary_getSavePath(JNIEnv* env, jobject jobj,
-                                                          jstring jprogramId) {
+                                                                jstring jprogramId) {
     auto program_id = EmulationSession::GetProgramId(env, jprogramId);
     if (program_id == 0) {
         return Common::Android::ToJString(env, "");
@@ -841,9 +844,8 @@ jstring Java_org_sudachi_sudachi_1emu_NativeLibrary_getSavePath(JNIEnv* env, job
     return Common::Android::ToJString(env, user_save_data_path);
 }
 
-jstring Java_org_sudachi_sudachi_1emu_NativeLibrary_getDefaultProfileSaveDataRoot(JNIEnv* env,
-                                                                            jobject jobj,
-                                                                            jboolean jfuture) {
+jstring Java_org_sudachi_sudachi_1emu_NativeLibrary_getDefaultProfileSaveDataRoot(
+    JNIEnv* env, jobject jobj, jboolean jfuture) {
     Service::Account::ProfileManager manager;
     // TODO: Pass in a selected user once we get the relevant UI working
     const auto user_id = manager.GetUser(static_cast<std::size_t>(0));
@@ -854,13 +856,15 @@ jstring Java_org_sudachi_sudachi_1emu_NativeLibrary_getDefaultProfileSaveDataRoo
     return Common::Android::ToJString(env, user_save_data_root);
 }
 
-void Java_org_sudachi_sudachi_1emu_NativeLibrary_addFileToFilesystemProvider(JNIEnv* env, jobject jobj,
-                                                                       jstring jpath) {
+void Java_org_sudachi_sudachi_1emu_NativeLibrary_addFileToFilesystemProvider(JNIEnv* env,
+                                                                             jobject jobj,
+                                                                             jstring jpath) {
     EmulationSession::GetInstance().ConfigureFilesystemProvider(
         Common::Android::GetJString(env, jpath));
 }
 
-void Java_org_sudachi_sudachi_1emu_NativeLibrary_clearFilesystemProvider(JNIEnv* env, jobject jobj) {
+void Java_org_sudachi_sudachi_1emu_NativeLibrary_clearFilesystemProvider(JNIEnv* env,
+                                                                         jobject jobj) {
     EmulationSession::GetInstance().GetContentProvider()->ClearAllEntries();
 }
 

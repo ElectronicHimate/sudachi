@@ -38,7 +38,7 @@ public:
     }
 
 private:
-    libusb_context* ctx = nullptr;
+    libusb_context* ctx;
     int init_result{};
 };
 
@@ -66,7 +66,7 @@ public:
     }
 
 private:
-    libusb_device_handle* handle = nullptr;
+    libusb_device_handle* handle{};
 };
 
 GCAdapter::GCAdapter(std::string input_engine_) : InputEngine(std::move(input_engine_)) {
@@ -218,7 +218,8 @@ void GCAdapter::AdapterScanThread(std::stop_token stop_token) {
     Common::SetCurrentThreadName("ScanGCAdapter");
     usb_adapter_handle = nullptr;
     pads = {};
-    while (!Setup() && Common::StoppableTimedWait(stop_token, std::chrono::seconds{2})) {}
+    while (!Setup() && Common::StoppableTimedWait(stop_token, std::chrono::seconds{2})) {
+    }
 }
 
 bool GCAdapter::Setup() {

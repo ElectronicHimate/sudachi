@@ -131,7 +131,8 @@ void LogSettings() {
         }
     }
     log_path("DataStorage_CacheDir", Common::FS::GetSudachiPath(Common::FS::SudachiPath::CacheDir));
-    log_path("DataStorage_ConfigDir", Common::FS::GetSudachiPath(Common::FS::SudachiPath::ConfigDir));
+    log_path("DataStorage_ConfigDir",
+             Common::FS::GetSudachiPath(Common::FS::SudachiPath::ConfigDir));
     log_path("DataStorage_LoadDir", Common::FS::GetSudachiPath(Common::FS::SudachiPath::LoadDir));
     log_path("DataStorage_NANDDir", Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir));
     log_path("DataStorage_SDMCDir", Common::FS::GetSudachiPath(Common::FS::SudachiPath::SDMCDir));

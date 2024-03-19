@@ -429,7 +429,8 @@ void ProfileManager::WriteUserSaveFile() {
         };
     }
 
-    const auto raw_path(FS::GetSudachiPath(FS::SudachiPath::NANDDir) / "system/save/8000000000000010");
+    const auto raw_path(FS::GetSudachiPath(FS::SudachiPath::NANDDir) /
+                        "system/save/8000000000000010");
     if (FS::IsFile(raw_path) && !FS::RemoveFile(raw_path)) {
         return;
     }

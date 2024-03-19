@@ -2,8 +2,9 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 import android.annotation.SuppressLint
-import com.github.triplet.gradle.androidpublisher.ReleaseStatus
+import kotlin.collections.setOf
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+import com.github.triplet.gradle.androidpublisher.ReleaseStatus
 
 plugins {
     id("com.android.application")
@@ -185,7 +186,7 @@ android {
 }
 
 tasks.create<Delete>("ktlintReset") {
-    delete(File(layout.buildDirectory.asFile.toString() + File.separator + "intermediates/ktLint"))
+    delete(File(buildDir.path + File.separator + "intermediates/ktLint"))
 }
 
 val showFormatHelp = {
@@ -202,13 +203,13 @@ ktlint {
     version.set("0.47.1")
     android.set(true)
     ignoreFailures.set(false)
-    //disabledRules.set(
-    //    setOf(
-    //        "no-wildcard-imports",
-    //        "package-name",
-    //        "import-ordering"
-    //    )
-    //)
+    disabledRules.set(
+        setOf(
+            "no-wildcard-imports",
+            "package-name",
+            "import-ordering"
+        )
+    )
     reporters {
         reporter(ReporterType.CHECKSTYLE)
     }

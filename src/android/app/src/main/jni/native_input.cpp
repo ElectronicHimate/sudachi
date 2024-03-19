@@ -44,8 +44,8 @@ bool IsProfileNameValid(std::string_view profile_name) {
 }
 
 bool ProfileExistsInFilesystem(std::string_view profile_name) {
-    return Common::FS::Exists(Common::FS::GetSudachiPath(Common::FS::SudachiPath::ConfigDir) / "input" /
-                              fmt::format("{}.ini", profile_name));
+    return Common::FS::Exists(Common::FS::GetSudachiPath(Common::FS::SudachiPath::ConfigDir) /
+                              "input" / fmt::format("{}.ini", profile_name));
 }
 
 bool ProfileExistsInMap(const std::string& profile_name) {
@@ -186,7 +186,7 @@ void ConnectController(size_t player_index, bool connected) {
 extern "C" {
 
 jboolean Java_org_sudachi_sudachi_1emu_features_input_NativeInput_isHandheldOnly(JNIEnv* env,
-                                                                           jobject j_obj) {
+                                                                                 jobject j_obj) {
     return IsHandheldOnly();
 }
 
@@ -211,8 +211,9 @@ void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_onGamePadMotionEve
         j_z_gyro, j_x_accel, j_y_accel, j_z_accel);
 }
 
-void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_onReadNfcTag(JNIEnv* env, jobject j_obj,
-                                                                     jbyteArray j_data) {
+void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_onReadNfcTag(JNIEnv* env,
+                                                                           jobject j_obj,
+                                                                           jbyteArray j_data) {
     jboolean isCopy{false};
     std::span<u8> data(reinterpret_cast<u8*>(env->GetByteArrayElements(j_data, &isCopy)),
                        static_cast<size_t>(env->GetArrayLength(j_data)));
@@ -222,30 +223,32 @@ void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_onReadNfcTag(JNIEn
     }
 }
 
-void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_onRemoveNfcTag(JNIEnv* env, jobject j_obj) {
+void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_onRemoveNfcTag(JNIEnv* env,
+                                                                             jobject j_obj) {
     if (EmulationSession::GetInstance().IsRunning()) {
         EmulationSession::GetInstance().GetInputSubsystem().GetVirtualAmiibo()->CloseAmiibo();
     }
 }
 
-void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_onTouchPressed(JNIEnv* env, jobject j_obj,
-                                                                       jint j_id, jfloat j_x_axis,
-                                                                       jfloat j_y_axis) {
+void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_onTouchPressed(
+    JNIEnv* env, jobject j_obj, jint j_id, jfloat j_x_axis, jfloat j_y_axis) {
     if (EmulationSession::GetInstance().IsRunning()) {
         EmulationSession::GetInstance().Window().OnTouchPressed(j_id, j_x_axis, j_y_axis);
     }
 }
 
-void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_onTouchMoved(JNIEnv* env, jobject j_obj,
-                                                                     jint j_id, jfloat j_x_axis,
-                                                                     jfloat j_y_axis) {
+void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_onTouchMoved(JNIEnv* env,
+                                                                           jobject j_obj, jint j_id,
+                                                                           jfloat j_x_axis,
+                                                                           jfloat j_y_axis) {
     if (EmulationSession::GetInstance().IsRunning()) {
         EmulationSession::GetInstance().Window().OnTouchMoved(j_id, j_x_axis, j_y_axis);
     }
 }
 
-void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_onTouchReleased(JNIEnv* env, jobject j_obj,
-                                                                        jint j_id) {
+void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_onTouchReleased(JNIEnv* env,
+                                                                              jobject j_obj,
+                                                                              jint j_id) {
     if (EmulationSession::GetInstance().IsRunning()) {
         EmulationSession::GetInstance().Window().OnTouchReleased(j_id);
     }
@@ -278,18 +281,18 @@ void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_onDeviceMotionEven
 }
 
 void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_reloadInputDevices(JNIEnv* env,
-                                                                           jobject j_obj) {
+                                                                                 jobject j_obj) {
     EmulationSession::GetInstance().System().HIDCore().ReloadInputDevices();
 }
 
 void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_registerController(JNIEnv* env,
-                                                                           jobject j_obj,
-                                                                           jobject j_device) {
+                                                                                 jobject j_obj,
+                                                                                 jobject j_device) {
     EmulationSession::GetInstance().GetInputSubsystem().GetAndroid()->RegisterController(j_device);
 }
 
-jobjectArray Java_org_sudachi_sudachi_1emu_features_input_NativeInput_getInputDevices(JNIEnv* env,
-                                                                                jobject j_obj) {
+jobjectArray Java_org_sudachi_sudachi_1emu_features_input_NativeInput_getInputDevices(
+    JNIEnv* env, jobject j_obj) {
     auto devices = EmulationSession::GetInstance().GetInputSubsystem().GetInputDevices();
     jobjectArray jdevices = env->NewObjectArray(devices.size(), Common::Android::GetStringClass(),
                                                 Common::Android::ToJString(env, ""));
@@ -301,7 +304,7 @@ jobjectArray Java_org_sudachi_sudachi_1emu_features_input_NativeInput_getInputDe
 }
 
 void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_loadInputProfiles(JNIEnv* env,
-                                                                          jobject j_obj) {
+                                                                                jobject j_obj) {
     map_profiles.clear();
     const auto input_profile_loc =
         Common::FS::GetSudachiPath(Common::FS::SudachiPath::ConfigDir) / "input";
@@ -356,17 +359,14 @@ jobjectArray Java_org_sudachi_sudachi_1emu_features_input_NativeInput_getInputPr
     return j_profile_names;
 }
 
-jboolean Java_org_sudachi_sudachi_1emu_features_input_NativeInput_isProfileNameValid(JNIEnv* env,
-                                                                               jobject j_obj,
-                                                                               jstring j_name) {
+jboolean Java_org_sudachi_sudachi_1emu_features_input_NativeInput_isProfileNameValid(
+    JNIEnv* env, jobject j_obj, jstring j_name) {
     return Common::Android::GetJString(env, j_name).find_first_of("<>:;\"/\\|,.!?*") ==
            std::string::npos;
 }
 
-jboolean Java_org_sudachi_sudachi_1emu_features_input_NativeInput_createProfile(JNIEnv* env,
-                                                                          jobject j_obj,
-                                                                          jstring j_name,
-                                                                          jint j_player_index) {
+jboolean Java_org_sudachi_sudachi_1emu_features_input_NativeInput_createProfile(
+    JNIEnv* env, jobject j_obj, jstring j_name, jint j_player_index) {
     auto profile_name = Common::Android::GetJString(env, j_name);
     if (ProfileExistsInMap(profile_name)) {
         return false;
@@ -379,10 +379,8 @@ jboolean Java_org_sudachi_sudachi_1emu_features_input_NativeInput_createProfile(
     return SaveProfile(profile_name, j_player_index);
 }
 
-jboolean Java_org_sudachi_sudachi_1emu_features_input_NativeInput_deleteProfile(JNIEnv* env,
-                                                                          jobject j_obj,
-                                                                          jstring j_name,
-                                                                          jint j_player_index) {
+jboolean Java_org_sudachi_sudachi_1emu_features_input_NativeInput_deleteProfile(
+    JNIEnv* env, jobject j_obj, jstring j_name, jint j_player_index) {
     auto profile_name = Common::Android::GetJString(env, j_name);
     if (!ProfileExistsInMap(profile_name)) {
         return false;
@@ -397,16 +395,18 @@ jboolean Java_org_sudachi_sudachi_1emu_features_input_NativeInput_deleteProfile(
     return !ProfileExistsInMap(profile_name) && !ProfileExistsInFilesystem(profile_name);
 }
 
-jboolean Java_org_sudachi_sudachi_1emu_features_input_NativeInput_loadProfile(JNIEnv* env, jobject j_obj,
-                                                                        jstring j_name,
-                                                                        jint j_player_index) {
+jboolean Java_org_sudachi_sudachi_1emu_features_input_NativeInput_loadProfile(JNIEnv* env,
+                                                                              jobject j_obj,
+                                                                              jstring j_name,
+                                                                              jint j_player_index) {
     auto profile_name = Common::Android::GetJString(env, j_name);
     return LoadProfile(profile_name, j_player_index);
 }
 
-jboolean Java_org_sudachi_sudachi_1emu_features_input_NativeInput_saveProfile(JNIEnv* env, jobject j_obj,
-                                                                        jstring j_name,
-                                                                        jint j_player_index) {
+jboolean Java_org_sudachi_sudachi_1emu_features_input_NativeInput_saveProfile(JNIEnv* env,
+                                                                              jobject j_obj,
+                                                                              jstring j_name,
+                                                                              jint j_player_index) {
     auto profile_name = Common::Android::GetJString(env, j_name);
     return SaveProfile(profile_name, j_player_index);
 }
@@ -459,19 +459,21 @@ void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_loadPerGameConfigu
     handheld_controller->ReloadFromSettings();
 }
 
-void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_beginMapping(JNIEnv* env, jobject j_obj,
-                                                                     jint jtype) {
+void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_beginMapping(JNIEnv* env,
+                                                                           jobject j_obj,
+                                                                           jint jtype) {
     EmulationSession::GetInstance().GetInputSubsystem().BeginMapping(
         static_cast<InputCommon::Polling::InputType>(jtype));
 }
 
 jstring Java_org_sudachi_sudachi_1emu_features_input_NativeInput_getNextInput(JNIEnv* env,
-                                                                        jobject j_obj) {
+                                                                              jobject j_obj) {
     return Common::Android::ToJString(
         env, EmulationSession::GetInstance().GetInputSubsystem().GetNextInput().Serialize());
 }
 
-void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_stopMapping(JNIEnv* env, jobject j_obj) {
+void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_stopMapping(JNIEnv* env,
+                                                                          jobject j_obj) {
     EmulationSession::GetInstance().GetInputSubsystem().StopMapping();
 }
 
@@ -515,10 +517,8 @@ void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_updateMappingsWith
     }
 }
 
-jstring Java_org_sudachi_sudachi_1emu_features_input_NativeInput_getButtonParamImpl(JNIEnv* env,
-                                                                              jobject j_obj,
-                                                                              jint j_player_index,
-                                                                              jint j_button) {
+jstring Java_org_sudachi_sudachi_1emu_features_input_NativeInput_getButtonParamImpl(
+    JNIEnv* env, jobject j_obj, jint j_player_index, jint j_button) {
     return Common::Android::ToJString(env, EmulationSession::GetInstance()
                                                .System()
                                                .HIDCore()
@@ -535,10 +535,8 @@ void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_setButtonParamImpl
     });
 }
 
-jstring Java_org_sudachi_sudachi_1emu_features_input_NativeInput_getStickParamImpl(JNIEnv* env,
-                                                                             jobject j_obj,
-                                                                             jint j_player_index,
-                                                                             jint j_stick) {
+jstring Java_org_sudachi_sudachi_1emu_features_input_NativeInput_getStickParamImpl(
+    JNIEnv* env, jobject j_obj, jint j_player_index, jint j_stick) {
     return Common::Android::ToJString(env, EmulationSession::GetInstance()
                                                .System()
                                                .HIDCore()
@@ -556,8 +554,8 @@ void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_setStickParamImpl(
 }
 
 jint Java_org_sudachi_sudachi_1emu_features_input_NativeInput_getButtonNameImpl(JNIEnv* env,
-                                                                          jobject j_obj,
-                                                                          jstring j_param) {
+                                                                                jobject j_obj,
+                                                                                jstring j_param) {
     return static_cast<jint>(EmulationSession::GetInstance().GetInputSubsystem().GetButtonName(
         Common::ParamPackage(Common::Android::GetJString(env, j_param))));
 }
@@ -571,9 +569,8 @@ jintArray Java_org_sudachi_sudachi_1emu_features_input_NativeInput_getSupportedS
     return j_supported_indexes;
 }
 
-jint Java_org_sudachi_sudachi_1emu_features_input_NativeInput_getStyleIndexImpl(JNIEnv* env,
-                                                                          jobject j_obj,
-                                                                          jint j_player_index) {
+jint Java_org_sudachi_sudachi_1emu_features_input_NativeInput_getStyleIndexImpl(
+    JNIEnv* env, jobject j_obj, jint j_player_index) {
     return static_cast<s32>(EmulationSession::GetInstance()
                                 .System()
                                 .HIDCore()
@@ -581,10 +578,8 @@ jint Java_org_sudachi_sudachi_1emu_features_input_NativeInput_getStyleIndexImpl(
                                 ->GetNpadStyleIndex(true));
 }
 
-void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_setStyleIndexImpl(JNIEnv* env,
-                                                                          jobject j_obj,
-                                                                          jint j_player_index,
-                                                                          jint j_style_index) {
+void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_setStyleIndexImpl(
+    JNIEnv* env, jobject j_obj, jint j_player_index, jint j_style_index) {
     auto& hid_core = EmulationSession::GetInstance().System().HIDCore();
     auto type = static_cast<Core::HID::NpadStyleIndex>(j_style_index);
     ApplyControllerConfig(j_player_index, [&](Core::HID::EmulatedController* controller) {
@@ -598,16 +593,14 @@ void Java_org_sudachi_sudachi_1emu_features_input_NativeInput_setStyleIndexImpl(
     }
 }
 
-jboolean Java_org_sudachi_sudachi_1emu_features_input_NativeInput_isControllerImpl(JNIEnv* env,
-                                                                             jobject j_obj,
-                                                                             jstring jparams) {
+jboolean Java_org_sudachi_sudachi_1emu_features_input_NativeInput_isControllerImpl(
+    JNIEnv* env, jobject j_obj, jstring jparams) {
     return static_cast<jint>(EmulationSession::GetInstance().GetInputSubsystem().IsController(
         Common::ParamPackage(Common::Android::GetJString(env, jparams))));
 }
 
-jboolean Java_org_sudachi_sudachi_1emu_features_input_NativeInput_getIsConnected(JNIEnv* env,
-                                                                           jobject j_obj,
-                                                                           jint j_player_index) {
+jboolean Java_org_sudachi_sudachi_1emu_features_input_NativeInput_getIsConnected(
+    JNIEnv* env, jobject j_obj, jint j_player_index) {
     auto& hid_core = EmulationSession::GetInstance().System().HIDCore();
     auto* controller = hid_core.GetEmulatedControllerByIndex(static_cast<size_t>(j_player_index));
     if (j_player_index == 0 &&

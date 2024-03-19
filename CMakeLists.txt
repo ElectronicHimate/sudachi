@@ -515,7 +515,7 @@ if(ENABLE_QT)
             set(QT_PREFIX_HINT HINTS "${QT_PREFIX}")
 
             set(SUDACHI_QT_NO_CMAKE_SYSTEM_PATH "NO_CMAKE_SYSTEM_PATH")
-            # Binary package for Qt6 has Qt Multimedia
+            # Binary package for Qt5 has Qt Multimedia
             set(SUDACHI_USE_QT_MULTIMEDIA ON CACHE BOOL "Use Qt Multimedia" FORCE)
         endif()
 

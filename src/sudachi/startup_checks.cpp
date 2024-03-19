@@ -17,9 +17,9 @@
 #endif
 
 #include <fmt/core.h>
+#include "sudachi/startup_checks.h"
 #include "video_core/vulkan_common/vulkan_instance.h"
 #include "video_core/vulkan_common/vulkan_library.h"
-#include "sudachi/startup_checks.h"
 
 void CheckVulkan() {
     // Just start the Vulkan loader, this will crash if something is wrong

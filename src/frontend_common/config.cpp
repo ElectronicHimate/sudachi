@@ -372,7 +372,7 @@ void Config::ReadScreenshotValues() {
 
     ReadCategory(Settings::Category::Screenshots);
     FS::SetSudachiPath(FS::SudachiPath::ScreenshotsDir,
-                    ReadStringSetting(std::string("screenshot_path")));
+                       ReadStringSetting(std::string("screenshot_path")));
 
     EndGroup();
 }
@@ -577,15 +577,20 @@ void Config::SaveCoreValues() {
 void Config::SaveDataStorageValues() {
     BeginGroup(Settings::TranslateCategory(Settings::Category::DataStorage));
 
-    WriteStringSetting(std::string("nand_directory"), FS::GetSudachiPathString(FS::SudachiPath::NANDDir),
+    WriteStringSetting(std::string("nand_directory"),
+                       FS::GetSudachiPathString(FS::SudachiPath::NANDDir),
                        std::make_optional(FS::GetSudachiPathString(FS::SudachiPath::NANDDir)));
-    WriteStringSetting(std::string("sdmc_directory"), FS::GetSudachiPathString(FS::SudachiPath::SDMCDir),
+    WriteStringSetting(std::string("sdmc_directory"),
+                       FS::GetSudachiPathString(FS::SudachiPath::SDMCDir),
                        std::make_optional(FS::GetSudachiPathString(FS::SudachiPath::SDMCDir)));
-    WriteStringSetting(std::string("load_directory"), FS::GetSudachiPathString(FS::SudachiPath::LoadDir),
+    WriteStringSetting(std::string("load_directory"),
+                       FS::GetSudachiPathString(FS::SudachiPath::LoadDir),
                        std::make_optional(FS::GetSudachiPathString(FS::SudachiPath::LoadDir)));
-    WriteStringSetting(std::string("dump_directory"), FS::GetSudachiPathString(FS::SudachiPath::DumpDir),
+    WriteStringSetting(std::string("dump_directory"),
+                       FS::GetSudachiPathString(FS::SudachiPath::DumpDir),
                        std::make_optional(FS::GetSudachiPathString(FS::SudachiPath::DumpDir)));
-    WriteStringSetting(std::string("tas_directory"), FS::GetSudachiPathString(FS::SudachiPath::TASDir),
+    WriteStringSetting(std::string("tas_directory"),
+                       FS::GetSudachiPathString(FS::SudachiPath::TASDir),
                        std::make_optional(FS::GetSudachiPathString(FS::SudachiPath::TASDir)));
 
     WriteCategory(Settings::Category::DataStorage);

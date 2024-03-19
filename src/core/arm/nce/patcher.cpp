@@ -213,7 +213,8 @@ bool Patcher::RelocateAndCopy(Common::ProcessAddress load_base,
 }
 
 size_t Patcher::GetSectionSize() const noexcept {
-    return Common::AlignUp(m_patch_instructions.size() * sizeof(u32), Core::Memory::SUDACHI_PAGESIZE);
+    return Common::AlignUp(m_patch_instructions.size() * sizeof(u32),
+                           Core::Memory::SUDACHI_PAGESIZE);
 }
 
 void Patcher::WriteLoadContext() {

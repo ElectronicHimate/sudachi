@@ -13,10 +13,10 @@ AboutDialog::AboutDialog(QWidget* parent)
     const auto description = std::string(Common::g_scm_desc);
     const auto build_id = std::string(Common::g_build_id);
 
-    const auto sudachi_build = fmt::format("Sudachi Development Build | {}-{}", branch_name, description);
+    const auto sudachi_build = fmt::format("sudachi Development Build | {}-{}", branch_name, description);
     const auto override_build =
         fmt::format(fmt::runtime(std::string(Common::g_title_bar_format_idle)), build_id);
-    const auto& sudachi_build_version = override_build.empty() ? sudachi_build : override_build;
+    const auto sudachi_build_version = override_build.empty() ? sudachi_build : override_build;
 
     ui->setupUi(this);
     // Try and request the icon from Qt theme (Linux?)

@@ -4789,7 +4789,7 @@ Haluatko silti ohittaa tämän ja sulkea ? </translation>
                 < message >
                 <location filename="../../src/sudachi/bootmanager.cpp" line = "974" />
                     <source>sudachi has not been compiled with OpenGL support.< /source>
-                        < translation > Sudachichia ei ole koottu OpenGL - yhteensopivuuden kanssa.< /translation>
+                        < translation > Sudachia ei ole koottu OpenGL - yhteensopivuuden kanssa.< /translation>
                             < /message>
                             < message >
                             <location filename="../../src/sudachi/bootmanager.cpp" line = "993" />

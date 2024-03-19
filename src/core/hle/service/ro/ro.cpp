@@ -228,7 +228,8 @@ struct ProcessContext {
         R_UNLESS(bss_size == expected_bss_size, RO::ResultInvalidNro);
 
         // Validate all sizes are aligned.
-        R_UNLESS(Common::IsAligned(text_size, Core::Memory::SUDACHI_PAGESIZE), RO::ResultInvalidNro);
+        R_UNLESS(Common::IsAligned(text_size, Core::Memory::SUDACHI_PAGESIZE),
+                 RO::ResultInvalidNro);
         R_UNLESS(Common::IsAligned(ro_size, Core::Memory::SUDACHI_PAGESIZE), RO::ResultInvalidNro);
         R_UNLESS(Common::IsAligned(rw_size, Core::Memory::SUDACHI_PAGESIZE), RO::ResultInvalidNro);
         R_UNLESS(Common::IsAligned(bss_size, Core::Memory::SUDACHI_PAGESIZE), RO::ResultInvalidNro);

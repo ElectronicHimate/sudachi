@@ -54,12 +54,12 @@
 #include "input_common/drivers/tas_input.h"
 #include "input_common/drivers/touch_screen.h"
 #include "input_common/main.h"
-#include "video_core/gpu.h"
-#include "video_core/rasterizer_interface.h"
-#include "video_core/renderer_base.h"
 #include "sudachi/bootmanager.h"
 #include "sudachi/main.h"
 #include "sudachi/qt_common.h"
+#include "video_core/gpu.h"
+#include "video_core/rasterizer_interface.h"
+#include "video_core/renderer_base.h"
 
 class QObject;
 class QPaintEngine;
@@ -284,8 +284,8 @@ struct NullRenderWidget : public RenderWidget {
 GRenderWindow::GRenderWindow(GMainWindow* parent, EmuThread* emu_thread_,
                              std::shared_ptr<InputCommon::InputSubsystem> input_subsystem_,
                              Core::System& system_)
-    : QWidget(parent),
-      emu_thread(emu_thread_), input_subsystem{std::move(input_subsystem_)}, system{system_} {
+    : QWidget(parent), emu_thread(emu_thread_), input_subsystem{std::move(input_subsystem_)},
+      system{system_} {
     setWindowTitle(QStringLiteral("sudachi %1 | %2-%3")
                        .arg(QString::fromUtf8(Common::g_build_name),
                             QString::fromUtf8(Common::g_scm_branch),

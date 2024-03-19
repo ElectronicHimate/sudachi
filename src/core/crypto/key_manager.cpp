@@ -371,8 +371,8 @@ Key128 DeriveKeyblobMACKey(const Key128& keyblob_key, const Key128& mac_source) 
 }
 
 std::optional<Key128> DeriveSDSeed() {
-    const auto system_save_43_path =
-        Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "system/save/8000000000000043";
+    const auto system_save_43_path = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
+                                     "system/save/8000000000000043";
     const Common::FS::IOFile save_43{system_save_43_path, Common::FS::FileAccessMode::Read,
                                      Common::FS::FileType::BinaryFile};
 
@@ -1196,8 +1196,8 @@ void KeyManager::PopulateTickets() {
 
     std::vector<Ticket> tickets;
 
-    const auto system_save_e1_path =
-        Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "system/save/80000000000000e1";
+    const auto system_save_e1_path = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
+                                     "system/save/80000000000000e1";
     if (Common::FS::Exists(system_save_e1_path)) {
         const Common::FS::IOFile save_e1{system_save_e1_path, Common::FS::FileAccessMode::Read,
                                          Common::FS::FileType::BinaryFile};
@@ -1205,8 +1205,8 @@ void KeyManager::PopulateTickets() {
         tickets.insert(tickets.end(), blob1.begin(), blob1.end());
     }
 
-    const auto system_save_e2_path =
-        Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "system/save/80000000000000e2";
+    const auto system_save_e2_path = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
+                                     "system/save/80000000000000e2";
     if (Common::FS::Exists(system_save_e2_path)) {
         const Common::FS::IOFile save_e2{system_save_e2_path, Common::FS::FileAccessMode::Read,
                                          Common::FS::FileType::BinaryFile};

@@ -134,11 +134,6 @@ static FileSys::VirtualFile VfsDirectoryCreateFileWrapper(const FileSys::Virtual
 #include "input_common/drivers/tas_input.h"
 #include "input_common/drivers/virtual_amiibo.h"
 #include "input_common/main.h"
-#include "ui_main.h"
-#include "util/overlay_dialog.h"
-#include "video_core/gpu.h"
-#include "video_core/renderer_base.h"
-#include "video_core/shader_notify.h"
 #include "sudachi/about_dialog.h"
 #include "sudachi/bootmanager.h"
 #include "sudachi/compatdb.h"
@@ -162,6 +157,11 @@ static FileSys::VirtualFile VfsDirectoryCreateFileWrapper(const FileSys::Virtual
 #include "sudachi/uisettings.h"
 #include "sudachi/util/clickable_label.h"
 #include "sudachi/vk_device_info.h"
+#include "ui_main.h"
+#include "util/overlay_dialog.h"
+#include "video_core/gpu.h"
+#include "video_core/renderer_base.h"
+#include "video_core/shader_notify.h"
 
 #ifdef SUDACHI_CRASH_DUMPS
 #include "sudachi/breakpad.h"
@@ -370,7 +370,8 @@ GMainWindow::GMainWindow(std::unique_ptr<QtConfig> config_, bool has_broken_vulk
     const auto description = std::string(Common::g_scm_desc);
     const auto build_id = std::string(Common::g_build_id);
 
-    const auto sudachi_build = fmt::format("sudachi Development Build | {}-{}", branch_name, description);
+    const auto sudachi_build =
+        fmt::format("sudachi Development Build | {}-{}", branch_name, description);
     const auto override_build =
         fmt::format(fmt::runtime(std::string(Common::g_title_bar_format_idle)), build_id);
     const auto sudachi_build_version = override_build.empty() ? sudachi_build : override_build;
@@ -447,11 +448,12 @@ GMainWindow::GMainWindow(std::unique_ptr<QtConfig> config_, bool has_broken_vulk
     if (has_broken_vulkan) {
         UISettings::values.has_broken_vulkan = true;
 
-        QMessageBox::warning(this, tr("Broken Vulkan Installation Detected"),
-                             tr("Vulkan initialization failed during boot.<br><br>Click <a "
-                                "href='https://sudachi-emu.org/wiki/faq/"
-                                "#sudachi-starts-with-the-error-broken-vulkan-installation-detected'>"
-                                "here for instructions to fix the issue</a>."));
+        QMessageBox::warning(
+            this, tr("Broken Vulkan Installation Detected"),
+            tr("Vulkan initialization failed during boot.<br><br>Click <a "
+               "href='https://sudachi-emu.org/wiki/faq/"
+               "#sudachi-starts-with-the-error-broken-vulkan-installation-detected'>"
+               "here for instructions to fix the issue</a>."));
 
 #ifdef HAS_OPENGL
         Settings::values.renderer_backend = Settings::RendererBackend::OpenGL;
@@ -1816,7 +1818,8 @@ bool GMainWindow::LoadROM(const QString& filename, Service::AM::FrontendAppletPa
             tr("You are using the deconstructed ROM directory format for this game, which is an "
                "outdated format that has been superseded by others such as NCA, NAX, XCI, or "
                "NSP. Deconstructed ROM directories lack icons, metadata, and update "
-               "support.<br><br>For an explanation of the various Switch formats sudachi supports, <a "
+               "support.<br><br>For an explanation of the various Switch formats sudachi supports, "
+               "<a "
                "href='https://sudachi-emu.org/wiki/overview-of-switch-game-formats'>check out our "
                "wiki</a>. This message will not be shown again."));
     }
@@ -2649,7 +2652,8 @@ void GMainWindow::RemoveCustomConfiguration(u64 program_id, const std::string& g
         program_id == 0 ? Common::FS::PathToUTF8String(file_path.filename()).append(".ini")
                         : fmt::format("{:016X}.ini", program_id);
     const auto custom_config_file_path =
-        Common::FS::GetSudachiPath(Common::FS::SudachiPath::ConfigDir) / "custom" / config_file_name;
+        Common::FS::GetSudachiPath(Common::FS::SudachiPath::ConfigDir) / "custom" /
+        config_file_name;
 
     if (!Common::FS::Exists(custom_config_file_path)) {
         QMessageBox::warning(this, tr("Error Removing Custom Configuration"),
@@ -2723,10 +2727,10 @@ void GMainWindow::OnGameListDumpRomFS(u64 program_id, const std::string& game_pa
     }
 
     const auto base_romfs = base_nca->GetRomFS();
-    const auto dump_dir =
-        target == DumpRomFSTarget::Normal
-            ? Common::FS::GetSudachiPath(Common::FS::SudachiPath::DumpDir)
-            : Common::FS::GetSudachiPath(Common::FS::SudachiPath::SDMCDir) / "atmosphere" / "contents";
+    const auto dump_dir = target == DumpRomFSTarget::Normal
+                              ? Common::FS::GetSudachiPath(Common::FS::SudachiPath::DumpDir)
+                              : Common::FS::GetSudachiPath(Common::FS::SudachiPath::SDMCDir) /
+                                    "atmosphere" / "contents";
     const auto romfs_dir = fmt::format("{:016X}/romfs", title_id);
 
     const auto path = Common::FS::PathToUTF8String(dump_dir / romfs_dir);
@@ -3001,8 +3005,9 @@ bool GMainWindow::MakeShortcutIcoPath(const u64 program_id, const std::string_vi
     }
 
     // Create icon file path
-    out_icon_path /= (program_id == 0 ? fmt::format("sudachi-{}.{}", game_file_name, ico_extension)
-                                      : fmt::format("sudachi-{:016X}.{}", program_id, ico_extension));
+    out_icon_path /=
+        (program_id == 0 ? fmt::format("sudachi-{}.{}", game_file_name, ico_extension)
+                         : fmt::format("sudachi-{:016X}.{}", program_id, ico_extension));
     return true;
 }
 
@@ -3106,14 +3111,14 @@ void GMainWindow::OnGameListCreateShortcut(u64 program_id, const std::string& ga
 void GMainWindow::OnGameListOpenDirectory(const QString& directory) {
     std::filesystem::path fs_path;
     if (directory == QStringLiteral("SDMC")) {
-        fs_path =
-            Common::FS::GetSudachiPath(Common::FS::SudachiPath::SDMCDir) / "Nintendo/Contents/registered";
+        fs_path = Common::FS::GetSudachiPath(Common::FS::SudachiPath::SDMCDir) /
+                  "Nintendo/Contents/registered";
     } else if (directory == QStringLiteral("UserNAND")) {
-        fs_path =
-            Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "user/Contents/registered";
+        fs_path = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
+                  "user/Contents/registered";
     } else if (directory == QStringLiteral("SysNAND")) {
-        fs_path =
-            Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) / "system/Contents/registered";
+        fs_path = Common::FS::GetSudachiPath(Common::FS::SudachiPath::NANDDir) /
+                  "system/Contents/registered";
     } else {
         fs_path = directory.toStdString();
     }
@@ -4120,8 +4125,8 @@ void GMainWindow::LoadAmiibo(const QString& filename) {
 }
 
 void GMainWindow::OnOpenSudachiFolder() {
-    QDesktopServices::openUrl(QUrl::fromLocalFile(
-        QString::fromStdString(Common::FS::GetSudachiPathString(Common::FS::SudachiPath::SudachiDir))));
+    QDesktopServices::openUrl(QUrl::fromLocalFile(QString::fromStdString(
+        Common::FS::GetSudachiPathString(Common::FS::SudachiPath::SudachiDir))));
 }
 
 void GMainWindow::OnVerifyInstalledContents() {
@@ -4162,9 +4167,9 @@ void GMainWindow::OnInstallFirmware() {
 
     // Check for installed keys, error out, suggest restart?
     if (!ContentManager::AreKeysPresent()) {
-        QMessageBox::information(
-            this, tr("Keys not installed"),
-            tr("Install decryption keys and restart sudachi before attempting to install firmware."));
+        QMessageBox::information(this, tr("Keys not installed"),
+                                 tr("Install decryption keys and restart sudachi before attempting "
+                                    "to install firmware."));
         return;
     }
 
@@ -4488,8 +4493,8 @@ void GMainWindow::OnCaptureScreenshot() {
     }
 
     const u64 title_id = system->GetApplicationProcessProgramID();
-    const auto screenshot_path =
-        QString::fromStdString(Common::FS::GetSudachiPathString(Common::FS::SudachiPath::ScreenshotsDir));
+    const auto screenshot_path = QString::fromStdString(
+        Common::FS::GetSudachiPathString(Common::FS::SudachiPath::ScreenshotsDir));
     const auto date =
         QDateTime::currentDateTime().toString(QStringLiteral("yyyy-MM-dd_hh-mm-ss-zzz"));
     QString filename = QStringLiteral("%1/%2_%3.png")

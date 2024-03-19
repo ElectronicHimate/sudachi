@@ -137,7 +137,8 @@ void Tas::WriteTasFile(std::u8string_view file_name) {
                                    WriteCommandAxis(line.l_axis), WriteCommandAxis(line.r_axis));
     }
 
-    const auto tas_file_name = Common::FS::GetSudachiPath(Common::FS::SudachiPath::TASDir) / file_name;
+    const auto tas_file_name =
+        Common::FS::GetSudachiPath(Common::FS::SudachiPath::TASDir) / file_name;
     const auto bytes_written =
         Common::FS::WriteStringToFile(tas_file_name, Common::FS::FileType::TextFile, output_text);
     if (bytes_written == output_text.size()) {
