@@ -406,30 +406,10 @@ void EmitInvocationInfo(EmitContext& ctx, IR::Inst& inst) {
     case Stage::TessellationEval:
         ctx.Add("SHL.U {}.x,primitive.vertexcount,16;", inst);
         break;
-    case Stage::Geometry: {
-        u32 vertices_count = 0;
-        switch (ctx.runtime_info.input_topology) {
-        case InputTopology::Lines:
-            vertices_count = 2;
-            break;
-        case InputTopology::LinesAdjacency:
-            vertices_count = 4;
-            break;
-        case InputTopology::Triangles:
-            vertices_count = 3;
-            break;
-        case InputTopology::TrianglesAdjacency:
-            vertices_count = 6;
-            break;
-        case InputTopology::Points:
-        default:
-            vertices_count = 1;
-            break;
-        };
-
-        ctx.Add("SHL.U {}.x,{},16;", inst, vertices_count);
+    case Stage::Geometry:
+        ctx.Add("SHL.U {}.x,{},16;", inst,
+            InputTopologyVertices::vertices(ctx.runtime_info.input_topology));
         break;
-    }
     default:
         LOG_WARNING(Shader, "(STUBBED) called");
         ctx.Add("MOV.S {}.x,0x00ff0000;", inst);
@@ -442,6 +422,10 @@ void EmitSampleId(EmitContext& ctx, IR::Inst& inst) {
 
 void EmitIsHelperInvocation(EmitContext& ctx, IR::Inst& inst) {
     ctx.Add("MOV.S {}.x,fragment.helperthread.x;", inst);
+}
+
+void EmitSR_WScaleFactorXY(EmitContext& ctx, IR::Inst& inst) {
+    LOG_WARNING(Shader, "(STUBBED) called");
 }
 
 void EmitYDirection(EmitContext& ctx, IR::Inst& inst) {
