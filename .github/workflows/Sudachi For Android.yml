@@ -5,7 +5,7 @@ on:
     tags: [ "*" ]
   workflow_dispatch:
   
-  jobs:
+jobs:
     android:
     runs-on: ubuntu-latest
     environment: Android10
