@@ -1,9 +1,5 @@
 name: CI
 
-on:
-  push:
-    tags: [ "*" ]
-  workflow_dispatch:
     jobs:
     runs-on: ubuntu-latest
     environment: Android10
