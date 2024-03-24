@@ -31,7 +31,7 @@ jobs:
             sed -i "s+backing_base = static_castd<u8\\*>(pfn_VirtualAlloc2+backing_base = static_cast<u8\\*>(pfn_VirtualAlloc2+" src/common/host_memory.cpp
             cat src/common/host_memory.cpp
             
-      - steps:
+      steps:
       - name: Git Checkout
         uses: actions/checkout@v3
         with:
