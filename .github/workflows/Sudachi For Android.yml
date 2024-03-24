@@ -1,10 +1,4 @@
-name: CI
-    jobs:
-    runs-on: ubuntu-latest
-    environment: Android10
-    permissions: write-all
-    if: ${{github.repository == 'ElectronicHimate/sudachi}}
-    steps:
+steps:
       - name: 'Show If New Chnages'
         run: echo ${{ needs.syncro.outputs.isUpdated }}
       - uses: actions/checkout@v3
