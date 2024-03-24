@@ -5,8 +5,8 @@ on:
     tags: [ "*" ]
   workflow_dispatch:
   
-jobs:
-  android:
+  jobs:
+    android:
     runs-on: ubuntu-latest
     environment: Android10
     permissions: write-all
