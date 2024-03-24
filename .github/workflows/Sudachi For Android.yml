@@ -1,5 +1,4 @@
 name: CI
-
     jobs:
     runs-on: ubuntu-latest
     environment: Android10
